@@ -1,4 +1,5 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { useLogger } from '@react-navigation/devtools';
+import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useColorScheme } from 'react-native';
 import { Todo } from '../screens/Todo';
@@ -10,9 +11,12 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const AppRoute = () => {
   const colorScheme = useColorScheme();
+  const navigationRef = useNavigationContainerRef();
+
+  useLogger(navigationRef);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{ headerBackButtonDisplayMode: 'minimal', headerTitleStyle: { fontSize: 24, fontWeight: '800', color: colorScheme === 'dark' ? 'hsl(0 0% 98%)' : 'hsl(240 5.9% 10%)' }, headerStyle: { backgroundColor: colorScheme === 'dark' ? 'hsl(240 3.7% 15.9%)' : 'hsl(0 0% 100%)' }, headerShadowVisible: false }}>
         <Stack.Screen
           name="Todo"
